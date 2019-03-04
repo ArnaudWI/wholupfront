@@ -12,7 +12,7 @@ import SearchScreen from '../Screens/SearchScreen';
 import SignInScreen from '../Screens/SignInScreen';
 import SignUpScreen from '../Screens/SignUpScreen';
 import HomeScreen from '../Screens/HomeScreen';
- 
+
 // création de ma bottom navigation
 const MainNavigator = createBottomTabNavigator({
   Account: AccountScreen,
@@ -24,7 +24,7 @@ const MainNavigator = createBottomTabNavigator({
       var iconName;
       var outline = (focused)
       ? ''
-      : '-outline';
+      : '';// '-outline' normalement
       if (navigation.state.routeName == 'Account') {
         iconName = 'ios-information-circle';
       } else if (navigation.state.routeName == 'Search') {
