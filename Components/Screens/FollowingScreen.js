@@ -12,16 +12,28 @@ import {
   Avatar,
   ListItem,
   Icon
-  } from 'react-native-elements'
+} from 'react-native-elements';
 
-export default class FollowingScreen extends React.Component {
+import {connect} from 'react-redux';
+
+class FollowingScreen extends React.Component {
   render() {
 
-    const users = [
-      { name: "Emilie Carpenter", title: "EC", email: "contact@gmail.com", company: "Deckow-Crist", color: "#e67e22"}
-    ]
 
-    let usersList = users.map((user, i) => {
+    console.log(this.props.addContact)
+    let contactList = this.props.addContact.map((user, i) => {
+      var colorNbr = Math.random();
+      var color;
+      if (colorNbr < 0.25) {
+        color = '#e67e22';
+      } else if (colorNbr < 0.5) {
+        color = '#3498db';
+      } else if (colorNbr < 0.75) {
+        color = '#16a085';
+      } else {
+        color = '#e74c3c';
+      };
+
       return(
         <ListItem
           key={i}
@@ -30,7 +42,7 @@ export default class FollowingScreen extends React.Component {
               small
               rounded
               title={user.title}
-              overlayContainerStyle={{backgroundColor: "#e67e22"}}
+              overlayContainerStyle={{backgroundColor: color}}
             />
           }
           title={user.name}
@@ -52,12 +64,23 @@ export default class FollowingScreen extends React.Component {
     return (
       <ScrollView style={styles.container}>
 
-          {usersList}
+          {this.props.addContact.length < 1
+            ? <Text>Vous ne suivez aucun contact.</Text>
+            : contactList.reverse()}
+
 
       </ScrollView>
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    addContact: state.addContact,
+  };
+}
+
+export default connect(mapStateToProps, null)(FollowingScreen);
 
 const styles = StyleSheet.create({
  container: {

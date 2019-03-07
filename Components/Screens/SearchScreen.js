@@ -12,20 +12,23 @@ import {
   Avatar,
   ListItem,
   Icon
-  } from 'react-native-elements'
+} from 'react-native-elements';
 
-export default class SearchScreen extends React.Component {
+import {connect} from 'react-redux';
+
+class SearchScreen extends React.Component {
   render() {
 
     const users = [
-      { name: "Emilie Carpenter", title: "EC", email: "contact@gmail.com", company: "Deckow-Crist", color: "#e67e22"},
-      { name: "John Doe", title: "JD", email: "contact@gmail.com", company: "Deckow-Crist", color: "#3498db"},
-      { name: "Noel Paganelli", title: "NP", email: "contact@gmail.com", company: "Deckow-Crist", color: "#16a085"}
+      { name: "Emilie Carpenter", title: "EC", email: "emilie@gmail.com", company: "Deckow-Crist", color: "#e67e22"},
+      { name: "John Doe", title: "JD", email: "john@gmail.com", company: "Deckow-Crist", color: "#3498db"},
+      { name: "Noel Paganelli", title: "NP", email: "noel@gmail.com", company: "Deckow-Crist", color: "#16a085"}
     ]
 
     let usersList = users.map((user, i) => {
       return(
         <ListItem
+          onPress={() => this.props.handleContact(user.name, user.email, user.company, user.title)}
           key={i}
           leftAvatar={
             <Avatar
@@ -60,6 +63,25 @@ export default class SearchScreen extends React.Component {
     );
   }
 }
+
+function mapDispatchToProps(dispatch) {
+ return {
+  handleContact: function(nameContact, emailContact, companyContact, titleContact) {
+    dispatch({
+      type: 'addcontact',
+      name: nameContact,
+      email: emailContact,
+      company: companyContact,
+      title: titleContact
+    })
+  }
+ }
+}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(SearchScreen);
 
 const styles = StyleSheet.create({
  container: {
