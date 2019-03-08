@@ -6,9 +6,11 @@ import {
   Button,
   Input,
   Divider
-} from 'react-native-elements'
+} from 'react-native-elements';
 
-export default class SignInScreen extends React.Component {
+import {connect} from 'react-redux';
+
+class SignInScreen extends React.Component {
   state = {
     email: '',
     password: ''
@@ -21,6 +23,7 @@ export default class SignInScreen extends React.Component {
       console.log(data)
       if (data.isUserExist) {
         this.setState({error: null});
+        this.props.handleUserValid(data.user.lastName,data.user.firstName,data.user.email)
         this.props.navigation.navigate('Account');
       } else {
         this.setState({error: "l'identifiant ou/et le mot de passe sont incorrects"});
@@ -55,3 +58,22 @@ export default class SignInScreen extends React.Component {
     );
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    handleUserValid: function(nameUser, firstNameUser, emailUser) {
+      console.log(nameUser)
+      dispatch({
+        type: 'setUserData',
+        name: nameUser,
+        firstName: firstNameUser,
+        email: emailUser
+      });
+    },
+  }
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(SignInScreen);

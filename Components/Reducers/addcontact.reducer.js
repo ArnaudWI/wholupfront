@@ -1,5 +1,4 @@
 export default function (contactList = [], action) {
-  console.log('bonour')
   if(action.type == 'addcontact') {
       var contactListCopy = [...contactList];
       var isUserExist = false;

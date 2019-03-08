@@ -8,8 +8,11 @@ import {
   Divider
 } from 'react-native-elements'
 
-export default class AccountScreen extends React.Component {
+import {connect} from 'react-redux';
+
+class AccountScreen extends React.Component {
   render() {
+       console.log(this.props.user, 'account screen')
     return (
       <View  style={{flex:1, justifyContent:"center", alignItems:"center"}}>
 
@@ -20,8 +23,8 @@ export default class AccountScreen extends React.Component {
           overlayContainerStyle={{backgroundColor:"#e67e22"}}
         />
         <Divider style={{height:10}}/>
-        <Text h4>John Doe</Text>
-        <Text h4>john@gmail.com</Text>
+        <Text h4>{this.props.user.firstName} {this.props.user.name}</Text>
+        <Text h4>{this.props.user.email}</Text>
         <Divider style={{height:10}}/>
         <Button
           title="Disconnect"
@@ -33,3 +36,11 @@ export default class AccountScreen extends React.Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    user: state.userData,
+  };
+}
+
+export default connect(mapStateToProps, null)(AccountScreen);

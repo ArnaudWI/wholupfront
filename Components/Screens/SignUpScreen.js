@@ -8,7 +8,9 @@ import {
   Divider
 } from 'react-native-elements'
 
-export default class SignUpScreen extends React.Component {
+import {connect} from 'react-redux';
+
+class SignUpScreen extends React.Component {
 
 state = {
   firstName: '',
@@ -26,6 +28,7 @@ handleSubmit = () => {
   .then(response => response.json())
   .then(data => {
     if (data.user) {
+      this.props.handleUserValid(data.user.lastName,data.user.firstName,data.user.email)
       this.props.navigation.navigate('Account');
     } else {
       console.log('erreur de log')
@@ -73,3 +76,22 @@ handleSubmit = () => {
     );
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    handleUserValid: function(nameUser, firstNameUser, emailUser) {
+      console.log(nameUser)
+      dispatch({
+        type: 'setUserData',
+        name: nameUser,
+        firstName: firstNameUser,
+        email: emailUser
+      });
+    },
+  }
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(SignUpScreen);
