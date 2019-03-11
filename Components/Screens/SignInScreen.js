@@ -1,6 +1,6 @@
 import React from 'react';
 //import de mes bibliothèques/éléments
-import {View} from 'react-native';
+import {View, Switch} from 'react-native';
 import {
   Text,
   Button,
@@ -10,10 +10,12 @@ import {
 
 import {connect} from 'react-redux';
 
+
 class SignInScreen extends React.Component {
   state = {
     email: '',
-    password: ''
+    password: '',
+    switch: false
   };
 
   handleSubmit = (text) => {
@@ -23,7 +25,7 @@ class SignInScreen extends React.Component {
       console.log(data)
       if (data.isUserExist) {
         this.setState({error: null});
-        this.props.handleUserValid(data.user.lastName,data.user.firstName,data.user.email)
+        this.props.handleUserValid(data.user.lastName,data.user.firstName,data.user.email,data.user.token)
         this.props.navigation.navigate('Account');
       } else {
         this.setState({error: "l'identifiant ou/et le mot de passe sont incorrects"});
@@ -46,7 +48,12 @@ class SignInScreen extends React.Component {
           labelStyle={{textAlign: 'center'}}
           onChangeText={text => this.setState({password: text})}
           errorMessage={this.state.error}
+          secureTextEntry={!this.state.switch}
         />
+        <Text>Afficher le mot de passe ?</Text>
+        <Switch value={this.state.switch} onValueChange={value => this.setState({
+          switch: value
+        })}/>
         <Divider style={{height:20}}/>
         <Button
           title="Sign In"
@@ -61,13 +68,14 @@ class SignInScreen extends React.Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    handleUserValid: function(nameUser, firstNameUser, emailUser) {
+    handleUserValid: function(nameUser, firstNameUser, emailUser, idUser) {
       console.log(nameUser)
       dispatch({
         type: 'setUserData',
         name: nameUser,
         firstName: firstNameUser,
-        email: emailUser
+        email: emailUser,
+        idUser: idUser
       });
     },
   }

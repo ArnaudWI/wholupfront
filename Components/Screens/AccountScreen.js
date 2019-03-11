@@ -12,7 +12,7 @@ import {connect} from 'react-redux';
 
 class AccountScreen extends React.Component {
   render() {
-       console.log(this.props.user, 'account screen')
+      // console.log(this.props.user, 'account screen')
     return (
       <View  style={{flex:1, justifyContent:"center", alignItems:"center"}}>
 

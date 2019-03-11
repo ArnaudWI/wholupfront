@@ -18,7 +18,7 @@ import {connect} from 'react-redux';
 
 class SearchScreen extends React.Component {
   render() {
-
+    console.log(this.props.user.idUser)
     const users = [
       { name: "Emilie Carpenter", title: "EC", email: "emilie@gmail.com", company: "Deckow-Crist", color: "#e67e22"},
       { name: "John Doe", title: "JD", email: "john@gmail.com", company: "Deckow-Crist", color: "#3498db"},
@@ -78,8 +78,14 @@ function mapDispatchToProps(dispatch) {
  }
 }
 
+function mapStateToProps(state) {
+  return {
+    user: state.userData,
+  };
+}
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(SearchScreen);
 

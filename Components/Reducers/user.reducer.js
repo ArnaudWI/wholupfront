@@ -4,9 +4,9 @@ export default function (user = {}, action) {
       ...user,
       name: action.name,
       firstName: action.firstName,
-      email: action.email
+      email: action.email,
+      idUser: action.idUser
     }
-    console.log(userCopy)
     return userCopy;
   } else {
     return user;

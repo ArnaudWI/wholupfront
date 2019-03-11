@@ -20,7 +20,7 @@ class FollowingScreen extends React.Component {
   render() {
 
 
-    console.log(this.props.addContact)
+    console.log(this.props.user.idUser)
     let contactList = this.props.addContact.map((user, i) => {
       var colorNbr = Math.random();
       var color;
@@ -77,6 +77,7 @@ class FollowingScreen extends React.Component {
 function mapStateToProps(state) {
   return {
     addContact: state.addContact,
+    user: state.userData
   };
 }
 

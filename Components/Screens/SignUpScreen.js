@@ -1,6 +1,9 @@
 import React from 'react';
 //import de mes bibliothèques/éléments
-import {View} from 'react-native';
+import {
+  View,
+  Switch
+} from 'react-native';
 import {
   Text,
   Button,
@@ -16,7 +19,8 @@ state = {
   firstName: '',
   lastName: '',
   email: '',
-  password: ''
+  password: '',
+  switch: false
 };
 
 handleSubmit = () => {
@@ -28,7 +32,8 @@ handleSubmit = () => {
   .then(response => response.json())
   .then(data => {
     if (data.user) {
-      this.props.handleUserValid(data.user.lastName,data.user.firstName,data.user.email)
+      console.log(data.user)
+      this.props.handleUserValid(data.user.lastName,data.user.firstName,data.user.email,data.user.token)
       this.props.navigation.navigate('Account');
     } else {
       console.log('erreur de log')
@@ -64,7 +69,12 @@ handleSubmit = () => {
           label="Mot de passe"
           labelStyle={{textAlign: 'center'}}
           onChangeText={(text) => this.setState({password: text})}
+          secureTextEntry={!this.state.switch}
         />
+        <Text>Afficher le mot de passe ?</Text>
+        <Switch value={this.state.switch} onValueChange={value => this.setState({
+          switch: value
+        })}/>
         <Divider style={{height:20}}/>
         <Button
           title="Sign Up"
@@ -79,13 +89,13 @@ handleSubmit = () => {
 
 function mapDispatchToProps(dispatch) {
   return {
-    handleUserValid: function(nameUser, firstNameUser, emailUser) {
-      console.log(nameUser)
+    handleUserValid: function(nameUser, firstNameUser, emailUser, idUser) {
       dispatch({
         type: 'setUserData',
         name: nameUser,
         firstName: firstNameUser,
-        email: emailUser
+        email: emailUser,
+        idUser: idUser
       });
     },
   }
